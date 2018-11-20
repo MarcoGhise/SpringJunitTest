@@ -219,13 +219,11 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -256,7 +254,7 @@
 						<configuration>
 							<fileSets>
 								<fileSet>
-									<sourceFile>src/main/resources/springjunittest-servlet.xml</sourceFile>
+									<sourceFile>src/main/webapp/WEB-INF/springjunittest-servlet.xml</sourceFile>
 									<destinationFile>target/test-classes/springjunittest-servlet.xml</destinationFile>
 								</fileSet>
 								<fileSet>
