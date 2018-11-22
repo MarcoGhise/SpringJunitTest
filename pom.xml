@@ -4,9 +4,6 @@
 	<groupId>it.blog.springjunit</groupId>
 	<artifactId>SpringJunitTest</artifactId>
 	<packaging>war</packaging>
-	<build>
-   		<finalName>SpringJunitTest</finalName>
- 	</build>
 	<version>1.0.0</version>
 	<name>SpringJunitTest Maven Webapp</name>
 	<url>http://maven.apache.org</url>
@@ -242,6 +239,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>SpringJunitTest</finalName>
 		<plugins>
 			<plugin>
 				<groupId>com.coderplus.maven.plugins</groupId>
