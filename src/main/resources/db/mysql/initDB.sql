@@ -1,3 +1,5 @@
+drop schema junit; 
+create schema junit;
 DROP TABLE IF EXISTS Customers;
 
 CREATE TABLE Customers (
