@@ -23,9 +23,11 @@ public class WebController {
 	@RequestMapping(method = RequestMethod.GET, value = "/lastname")
 	public String getLastName(HttpSession sessionObj, @RequestParam String firstname, ModelMap model) throws InterruptedException {
 
+		System.out.println(firstname);
+		
+		model.addAttribute("lastname", firstname);
+		
 		/*
-		 * Check the session before Query Database
-		 */
 		if (sessionObj.getAttribute("LastName") == null) {
 			TableData tableData = jdbcDao.getData(firstname);
 
@@ -38,7 +40,7 @@ public class WebController {
 		}
 		else
 			model.addAttribute("lastname", sessionObj.getAttribute("LastName"));
-
+*/
 		return "index";
 
 	}
