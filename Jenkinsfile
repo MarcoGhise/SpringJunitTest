@@ -1,8 +1,8 @@
 def CONTAINER_NAME="jenkins-pipeline"
 def CONTAINER_TAG="latest"
 def HTTP_PORT="8082"
-def TEST_URL="http://localhost:${HTTP_PORT}/SpringJunitTest/lastname?firstname=James"
-def TEST_TEXT="The user last name is - James"
+def TEST_URL="http://localhost:${HTTP_PORT}/SpringJunitTest/lastnamejson?firstname=James"
+def TEST_TEXT="{\"id\":1,\"name\":\"Dean\"}"
 
 node {
 
@@ -36,6 +36,7 @@ node {
 
     stage('Run App'){
       bat "docker run --name mysql -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mysql:5.5"
+      sleep(10)
       bat "docker run -d -p $HTTP_PORT:8080 --link mysql:mysql --name $CONTAINER_NAME $CONTAINER_NAME:$CONTAINER_TAG"
       echo "Application started on port: ${HTTP_PORT} (http)"
     }
