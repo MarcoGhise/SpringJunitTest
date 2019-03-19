@@ -27,7 +27,6 @@ public class WebController {
 		
 		model.addAttribute("lastname", firstname);
 		
-		/*
 		if (sessionObj.getAttribute("LastName") == null) {
 			TableData tableData = jdbcDao.getData(firstname);
 
@@ -40,7 +39,7 @@ public class WebController {
 		}
 		else
 			model.addAttribute("lastname", sessionObj.getAttribute("LastName"));
-*/
+
 		return "index";
 
 	}
