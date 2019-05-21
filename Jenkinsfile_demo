@@ -1,0 +1,37 @@
+def CONTAINER_NAME="jenkins-pipeline"
+def CONTAINER_TAG="latest"
+def HTTP_PORT="8082"
+def TEST_URL="http://localhost:${HTTP_PORT}/SpringJunitTest/lastnamejson?firstname=James"
+def TEST_TEXT="{\"id\":1,\"name\":\"Dean\"}"
+
+node {
+
+    stage('Checkout') {
+        //git 'https://github.com/MarcoGhise/SpringJunitTest.git'
+        checkout scm
+    }
+
+    stage('Unit Test'){
+        bat "mvn -U clean compile"
+    }
+    
+    stage('Package'){
+        bat "mvn package -DskipTests"
+    }
+
+    stage("Image Clear up"){
+      echo "Image Clear up completed"
+    }
+
+    stage('Image Build'){
+      echo "Image build completed"
+    }
+
+    stage('Run App'){      
+      echo "Image Run App completed"
+    }
+ 
+    stage('Integration Test'){
+      echo "Image Integration Test completed"       
+    }
+}
