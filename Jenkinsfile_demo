@@ -12,11 +12,11 @@ node {
     }
 
     stage('Unit Test'){
-        bat "mvn -U clean compile"
+        sh "mvn -U clean compile"
     }
     
     stage('Package'){
-        bat "mvn package -DskipTests"
+        sh "mvn package -DskipTests"
     }
 
     stage("Image Clear up"){
