@@ -19,19 +19,43 @@ node {
         sh "mvn package -DskipTests"
     }
 
-    stage("Image Clear up"){
+    stage("Image Clear up"){      
+      try {
+          sh "docker stop mysql"
+          sh "docker rm -f mysql"
+          sh "docker stop $CONTAINER_NAME"
+          sh "docker rm -f $CONTAINER_NAME"
+          sh "docker rmi $CONTAINER_NAME:$CONTAINER_TAG"
+      } catch(error){}
       echo "Image Clear up completed"
     }
 
     stage('Image Build'){
       echo "Image build completed"
+      sh "docker build -t $CONTAINER_NAME:$CONTAINER_TAG  -t $CONTAINER_NAME --pull --no-cache ."
+      echo "Image build complete"
     }
 
-    stage('Run App'){      
+    stage('Run App'){    
+      sh "docker run --name mysql -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mysql:5.5"
+      sleep(10)
+      sh "docker run -d -p $HTTP_PORT:8080 --link mysql:mysql --name $CONTAINER_NAME $CONTAINER_NAME:$CONTAINER_TAG"
+      echo "Application started on port: ${HTTP_PORT} (http)"  
       echo "Image Run App completed"
     }
  
     stage('Integration Test'){
+      sleep(10)
+      sh "docker exec -i mysql mysql -e \"create schema junit;use junit;DROP TABLE IF EXISTS Customers;CREATE TABLE Customers (  id INT NOT NULL AUTO_INCREMENT,  first_name VARCHAR(30),  last_name  VARCHAR(30),  PRIMARY KEY (`id`));INSERT INTO Customers VALUES (1, 'James', 'Dean');INSERT INTO Customers VALUES (2, 'Larry', 'Bird');\""
+      def response = httpRequest "${TEST_URL}"
+      println("Status: "+response.status)
+      println("Content: "+response.content)
+      if (!response.content.contains("${TEST_TEXT}"))
+      {
+          echo '[FAILURE] Failed to verify TEST_TEXT'
+          currentBuild.result = 'FAILURE'
+          return
+      }
       echo "Image Integration Test completed"       
     }
 }
